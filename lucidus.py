@@ -143,6 +143,8 @@ class player():
         :Returns:
             string - Name of the winning player
         """
+        if(self.point == other_player.point):
+            return 'Draw'
         if(self.point > other_player.point):
             return self.name
         return other_player.name
@@ -192,3 +194,80 @@ p2.player_points()
 #Printing the player name whose has won depending upon the points
 print("Winner is ",p1.winner(p2))
 
+
+"""
+Test case
+"""
+""""""""""""""""""""""""""""""""""""
+# Testing sort function
+""""""""""""""""""""""""""""""""""""
+c = [
+     card.Card(value='2', suit='Spades'), 
+     card.Card(value='5', suit='Diamonds'), 
+     card.Card(value='King', suit='Spades'), 
+     card.Card(value='3', suit='Hearts'), 
+     card.Card(value='Ace', suit='Clubs'), 
+    ]
+
+res = [card.Card(value='2', suit='Spades'), card.Card(value='King', suit='Spades'), card.Card(value='5', suit='Diamonds'), card.Card(value='3', suit='Hearts'), card.Card(value='Ace', suit='Clubs')] 
+
+assert obj.sort_cards(c) == res
+
+""""""""""""""""""""""""""""""""""""
+# Testing top card function
+""""""""""""""""""""""""""""""""""""
+shuffle_deck = obj.deck_shuffle()
+res = shuffle_deck[0]
+assert obj.get_top_card() == [res]
+
+shuffle_deck = obj.deck_shuffle()
+res = shuffle_deck[3]
+obj.get_top_card()
+obj.get_top_card()
+obj.get_top_card()
+assert obj.get_top_card() == [res]
+
+shuffle_deck = obj.deck_shuffle()
+shuffle_deck.empty()
+assert obj.get_top_card() == []
+
+""""""""""""""""""""""""""""""""""""
+# Testing player win
+""""""""""""""""""""""""""""""""""""
+#Creating two players
+abc = player('Player abc')
+xyz = player('Player xyz')
+
+abc.hand = [card.Card(value='8', suit='Diamonds'), card.Card(value='Queen', suit='Spades'), card.Card(value='3', suit='Clubs')]
+xyz.hand = [card.Card(value='4', suit='Spades'), card.Card(value='4', suit='Diamonds'), card.Card(value='Jack', suit='Hearts')]
+abc.player_points()
+xyz.player_points()
+assert abc.winner(xyz) == 'Player xyz'
+
+abc.point = xyz.point = 0
+abc.hand = []
+xyz.hand = [card.Card(value='4', suit='Spades'), card.Card(value='4', suit='Diamonds'), card.Card(value='Jack', suit='Hearts')]
+abc.player_points()
+xyz.player_points()
+assert abc.winner(xyz) == 'Player xyz'
+
+abc.point = xyz.point = 0
+abc.hand = [card.Card(value='8', suit='Diamonds'), card.Card(value='Queen', suit='Spades'), card.Card(value='3', suit='Clubs')]
+xyz.hand = []
+abc.player_points()
+xyz.player_points()
+assert abc.winner(xyz) == 'Player abc'
+
+abc.point = xyz.point = 0
+abc.hand = [card.Card(value='8', suit='Diamonds'), card.Card(value='Queen', suit='Spades'), card.Card(value='3', suit='Clubs')]
+xyz.hand = [card.Card(value='8', suit='Diamonds'), card.Card(value='Queen', suit='Spades'), card.Card(value='3', suit='Clubs')]
+abc.player_points()
+xyz.player_points()
+assert abc.winner(xyz) == 'Draw'
+
+abc.point = xyz.point = 0
+abc.hand = []
+xyz.hand = []
+abc.player_points()
+xyz.player_points()
+assert abc.winner(xyz) == 'Draw'
